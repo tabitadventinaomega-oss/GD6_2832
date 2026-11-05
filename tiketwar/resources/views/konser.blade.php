@@ -15,8 +15,10 @@
             <th>Harga</th>
             <th>Sisa</th>
             <th>Status</th>
+            <th>Aksi</th>
         </tr>
     </thead>
+
     <tbody>
         @forelse ($daftarKonser as $id => $konser)
             <tr>
@@ -34,10 +36,18 @@
                         <span class="badge bg-danger">Sold Out</span>
                     @endif
                 </td>
+
+                <td>
+                    <a href="{{ route('konser.detail', ['id' => $id]) }}"
+                       class="btn btn-sm btn-primary">
+                        Detail
+                    </a>
+                </td>
             </tr>
+
         @empty
             <tr>
-                <td colspan="6" class="text-center">Belum ada konser.</td>
+                <td colspan="7" class="text-center">Belum ada konser.</td>
             </tr>
         @endforelse
     </tbody>
