@@ -26,6 +26,21 @@
         </p>
 
         <p>Sisa tiket: {{ $konser['sisa'] }}</p>
+        @if ($konser['sisa'] > 0 && $konser['sisa'] < 10)
+
+            @include('partials.alert', [
+                'tipe' => 'warning',
+                'pesan' => 'Hati-hati! Tiket hampir habis.'
+            ])
+
+        @elseif ($konser['sisa'] == 0)
+
+            @include('partials.alert', [
+                'tipe' => 'danger',
+                'pesan' => 'Maaf, tiket konser ini sudah habis.'
+            ])
+
+        @endif
 
         @if ($konser['sisa'] > 0)
             <button class="btn btn-primary">
