@@ -8,27 +8,17 @@
     rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">TiketWar</a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">Beranda</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('konser.index') }}">Konser</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tentang') }}">Tentang</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+
+    @include('partials.navbar') {{-- menggantikan blok <nav> yang lama --}}
 
     <main class="container mt-4">
         @yield('content')
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @include('partials.footer') {{-- BARU --}}
+
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
