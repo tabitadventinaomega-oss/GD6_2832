@@ -39,7 +39,7 @@
             <th>Konser</th>
             <th>Promotor</th>
             <th>Kota</th>
-            <th>Tanggal</th>
+            <th>Tanggal</th> {{-- BARU --}}
             <th>Harga</th>
             <th>Sisa</th>
             <th>Status</th>
@@ -67,7 +67,18 @@
                 </td>
                 <td>
                     <a href="{{ route('konser.detail', ['id' => $konser->id]) }}"
-                       class="btn btn-sm btn-primary">Detail</a>
+                    class="btn btn-sm btn-primary">Detail</a>
+
+                    <a href="{{ route('konser.edit', ['id' => $konser->id]) }}"
+                    class="btn btn-sm btn-warning">Edit</a>
+
+                    <form action="{{ route('konser.destroy', ['id' => $konser->id]) }}"
+                        method="POST" class="d-inline"
+                        onsubmit="return confirm('Hapus konser ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
                 </td>
             </tr>
         @empty

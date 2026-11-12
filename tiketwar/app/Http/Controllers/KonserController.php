@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konser;
+use App\Models\Promotor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -32,5 +34,72 @@ class KonserController extends Controller
         $konser = Konser::with('promotor')->findOrFail($id);
 
         return view('konser-detail', compact('konser'));
+    }
+
+    // Menampilkan form tambah konser
+    public function create(): View
+    {
+        $daftarPromotor = Promotor::orderBy('nama')->get();
+
+        return view('konser-create', compact('daftarPromotor'));
+    }
+
+    // Menyimpan data konser baru
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'promotor_id' => ['required', 'exists:promotors,id'],
+            'nama'        => ['required', 'string', 'max:255'],
+            'kota'        => ['required', 'string', 'max:100'],
+            'harga'       => ['required', 'integer', 'min:0'],
+            'sisa'        => ['required', 'integer', 'min:0'],
+            'tanggal'     => ['required', 'date'],
+            'deskripsi'   => ['nullable', 'string'], // BARU
+        ]);
+
+        Konser::create($data);
+
+        return redirect()->route('konser.index')
+            ->with('success', 'Konser berhasil ditambahkan.');
+    }
+
+    // Menampilkan form ubah konser
+    public function edit($id): View
+    {
+        $konser = Konser::findOrFail($id);
+        $daftarPromotor = Promotor::orderBy('nama')->get();
+
+        return view('konser-edit', compact('konser', 'daftarPromotor'));
+    }
+
+    // Menyimpan perubahan konser
+    public function update(Request $request, $id): RedirectResponse
+    {
+        $konser = Konser::findOrFail($id);
+
+        $data = $request->validate([
+            'promotor_id' => ['required', 'exists:promotors,id'],
+            'nama'        => ['required', 'string', 'max:255'],
+            'kota'        => ['required', 'string', 'max:100'],
+            'harga'       => ['required', 'integer', 'min:0'],
+            'sisa'        => ['required', 'integer', 'min:0'],
+            'tanggal'     => ['required', 'date'],
+            'deskripsi'   => ['nullable', 'string'], // BARU
+        ]);
+
+        $konser->update($data);
+
+        return redirect()->route('konser.index')
+            ->with('success', 'Konser berhasil diubah.');
+    }
+
+    // Menghapus konser
+    public function destroy($id): RedirectResponse
+    {
+        $konser = Konser::findOrFail($id);
+        $konser->delete();
+
+        return redirect()->route('konser.index')
+            ->with('success', 'Konser berhasil dihapus.');
     }
 }
