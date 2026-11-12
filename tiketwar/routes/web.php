@@ -3,10 +3,22 @@
 
 use App\Http\Controllers\KonserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Konser;
+use App\Models\Promotor;
+
 
 Route::get('/', function () {
-    return view('home');
+    $jumlahKonser = Konser::count();
+    $jumlahPromotor = Promotor::count();
+    $totalSisa = Konser::sum('sisa');
+
+    return view('home', compact(
+        'jumlahKonser',
+        'jumlahPromotor',
+        'totalSisa'
+    ));
 })->name('home');
+
 
 Route::view('/tentang', 'about')->name('tentang');
 
