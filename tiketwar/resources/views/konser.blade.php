@@ -6,6 +6,32 @@
 @section('content')
 <h1 class="mb-3">Daftar Konser</h1>
 
+<form action="{{ route('konser.index') }}"
+      method="GET"
+      class="row g-2 mb-3">
+
+    <div class="col-md-4">
+        <select name="kota" class="form-select">
+            <option value="">Semua Kota</option>
+
+            @foreach ($daftarKota as $kota)
+                <option value="{{ $kota }}"
+                    @selected(request('kota') == $kota)>
+                    {{ $kota }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">
+            Filter
+        </button>
+    </div>
+
+</form>
+
+
 <table class="table table-bordered">
     <thead class="table-light">
         <tr>

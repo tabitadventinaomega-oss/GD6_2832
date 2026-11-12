@@ -10,13 +10,23 @@ use Illuminate\View\View;
 
 class KonserController extends Controller
 {
-    public function index(): View
+    // BARU: menampilkan konser berdasarkan filter kota
+    public function index(Request $request): View
     {
         $daftarKonser = Konser::with('promotor')
+            ->when($request->query('kota'), function ($query, $kota) {
+                return $query->where('kota', $kota);
+            })
             ->orderBy('tanggal')
             ->get();
 
-        return view('konser', compact('daftarKonser'));
+        // BARU: mengambil daftar kota tanpa duplikat
+        $daftarKota = Konser::select('kota')
+            ->distinct()
+            ->orderBy('kota')
+            ->pluck('kota');
+
+        return view('konser', compact('daftarKonser', 'daftarKota'));
     }
 
     public function show($id): View
