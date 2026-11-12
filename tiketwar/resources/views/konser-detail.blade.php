@@ -34,9 +34,10 @@
         </p>
 
         @if ($konser->sisa > 0)
-            <span class="badge bg-success">Tersedia</span>
+            <a href="{{ route('pesanan.create', $konser) }}"
+                class="btn btn-primary">War Tiket Sekarang</a>
         @else
-            <span class="badge bg-danger">Sold Out</span>
+            <button class="btn btn-secondary" disabled>Sold Out</button>
         @endif
 
         {{-- BARU: Deskripsi Konser --}}
