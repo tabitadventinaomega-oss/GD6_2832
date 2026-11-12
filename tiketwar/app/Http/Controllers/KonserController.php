@@ -12,7 +12,9 @@ class KonserController extends Controller
 {
     public function index(): View
     {
-        $daftarKonser = Konser::with('promotor')->orderBy('tanggal')->get();
+        $daftarKonser = Konser::with('promotor')
+            ->orderBy('tanggal')
+            ->get();
 
         return view('konser', compact('daftarKonser'));
     }
@@ -24,7 +26,7 @@ class KonserController extends Controller
         return view('konser-detail', compact('konser'));
     }
 
-    // BARU: menampilkan form tambah
+    // Menampilkan form tambah konser
     public function create(): View
     {
         $daftarPromotor = Promotor::orderBy('nama')->get();
@@ -32,7 +34,7 @@ class KonserController extends Controller
         return view('konser-create', compact('daftarPromotor'));
     }
 
-    // BARU: menyimpan data dari form
+    // Menyimpan data konser baru
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
@@ -42,6 +44,7 @@ class KonserController extends Controller
             'harga'       => ['required', 'integer', 'min:0'],
             'sisa'        => ['required', 'integer', 'min:0'],
             'tanggal'     => ['required', 'date'],
+            'deskripsi'   => ['nullable', 'string'], // BARU
         ]);
 
         Konser::create($data);
@@ -50,7 +53,7 @@ class KonserController extends Controller
             ->with('success', 'Konser berhasil ditambahkan.');
     }
 
-    // BARU: menampilkan form ubah
+    // Menampilkan form ubah konser
     public function edit($id): View
     {
         $konser = Konser::findOrFail($id);
@@ -59,7 +62,7 @@ class KonserController extends Controller
         return view('konser-edit', compact('konser', 'daftarPromotor'));
     }
 
-    // BARU: menyimpan perubahan
+    // Menyimpan perubahan konser
     public function update(Request $request, $id): RedirectResponse
     {
         $konser = Konser::findOrFail($id);
@@ -71,6 +74,7 @@ class KonserController extends Controller
             'harga'       => ['required', 'integer', 'min:0'],
             'sisa'        => ['required', 'integer', 'min:0'],
             'tanggal'     => ['required', 'date'],
+            'deskripsi'   => ['nullable', 'string'], // BARU
         ]);
 
         $konser->update($data);
@@ -79,7 +83,7 @@ class KonserController extends Controller
             ->with('success', 'Konser berhasil diubah.');
     }
 
-    // BARU: menghapus konser
+    // Menghapus konser
     public function destroy($id): RedirectResponse
     {
         $konser = Konser::findOrFail($id);
