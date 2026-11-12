@@ -78,4 +78,14 @@ class KonserController extends Controller
         return redirect()->route('konser.index')
             ->with('success', 'Konser berhasil diubah.');
     }
+
+    // BARU: menghapus konser
+    public function destroy($id): RedirectResponse
+    {
+        $konser = Konser::findOrFail($id);
+        $konser->delete();
+
+        return redirect()->route('konser.index')
+            ->with('success', 'Konser berhasil dihapus.');
+    }
 }
